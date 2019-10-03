@@ -65,17 +65,17 @@ namespace Dating.API
                 {
                     services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("SqlServerConnection")));
 
-                    services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                    .AddJwtBearer(options => 
-                    {
-                        options.TokenValidationParameters = new TokenValidationParameters()
-                                                    {
-                                                        ValidateIssuerSigningKey = true,
-                                                        IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes("Da definire!")),
-                                                        ValidateIssuer = false,
-                                                        ValidateAudience = false
-                                                    };
-                    });
+                    // services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                    // .AddJwtBearer(options => 
+                    // {
+                    //     options.TokenValidationParameters = new TokenValidationParameters()
+                    //                                 {
+                    //                                     ValidateIssuerSigningKey = true,
+                    //                                     IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes("Da definire!")),
+                    //                                     ValidateIssuer = false,
+                    //                                     ValidateAudience = false
+                    //                                 };
+                    // });
                 }         
                 else
                 {
@@ -84,10 +84,11 @@ namespace Dating.API
             }                 
             else
             {
+                //Production and Staging
                 if(Configuration.GetConnectionString("SqlServerConnection") != null)
                     services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("SqlServerConnection")));
                 else
-                    services.AddDbContext<DataContext>(x => x.UseSqlite("Data Source=DatingApp.db"));
+                    services.AddDbContext<DataContext>(x => x.UseSqlServer("Data Source=DESKTOP-QB60D23\\SQLEXPRESS;Initial Catalog=NSDeleghe;Integrated Security=True"));
             }                
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);

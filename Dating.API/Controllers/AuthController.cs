@@ -63,7 +63,13 @@ namespace Dating.API.Controllers
                 new Claim(ClaimTypes.Name, userFromRepo.Username)
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("AppSettings:Token").Value));
+            //Funziona solo in sviluppo
+            var tokenAppSetting = _config.GetSection("AppSettings:Token").Value;
+
+            if(tokenAppSetting == null)
+                tokenAppSetting = "super secret key";
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenAppSetting));
 
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 

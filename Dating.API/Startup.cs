@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
+﻿using System.Net;
 using Dating.API.Data;
 using Dating.API.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -10,13 +6,10 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 //Microsoft.EntityFrameworkCore.SqlServer
@@ -88,11 +81,12 @@ namespace Dating.API
                 if(Configuration.GetConnectionString("SqlServerConnection") != null)
                     services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("SqlServerConnection")));
                 else
-                    services.AddDbContext<DataContext>(x => x.UseSqlServer("Data Source=DESKTOP-QB60D23\\SQLEXPRESS;Initial Catalog=NSDeleghe;Integrated Security=True"));
+                    services.AddDbContext<DataContext>(x => x.UseSqlServer("Data Source=DESKTOP-QB60D23\\SQLEXPRESS;Initial Catalog=Dating;Integrated Security=True"));
             }                
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddCors();
+            services.AddScoped<IDatingRepository, DatingRepository>();
             services.AddScoped<IAuthRepository, AuthRepository>();            
         }
 

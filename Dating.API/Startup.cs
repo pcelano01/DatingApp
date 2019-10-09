@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using AutoMapper;
 using Dating.API.Data;
 using Dating.API.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -85,7 +86,11 @@ namespace Dating.API
             }                
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            // .AddJsonOptions(opt => {
+            //         opt.SerializerSettings.ReferenceLoopHandling= Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            // });
             services.AddCors();
+            services.AddAutoMapper(typeof(DatingRepository).Assembly);
             services.AddScoped<IDatingRepository, DatingRepository>();
             services.AddScoped<IAuthRepository, AuthRepository>();            
         }

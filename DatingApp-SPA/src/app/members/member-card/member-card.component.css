@@ -23,12 +23,22 @@
     right: 0;
     margin-right: auto;
     margin-left: auto;
-    opacity: 0
+    opacity: 0;
+    display: none;
 }
 
-.card-img-wrapper:hover, .member-icons{
+.card-img-top:hover + ul{
+    position: absolute;
+    display: block;
+}
+
+.member-icons:hover {
+    display: block;
+}
+
+.card-img-wrapper:hover, .member-icons {
     bottom: 0;
-    opacity: 1
+    opacity: 1;
 }
 
 .animate{

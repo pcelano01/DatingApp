@@ -2,7 +2,7 @@ using System;
 
 namespace Dating.API.Dtos
 {
-    public class UsersForListDto
+    public class UserForListDto
     {
         public int Id { get; set; }
 

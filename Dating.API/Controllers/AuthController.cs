@@ -40,15 +40,18 @@ namespace Dating.API.Controllers
                 return BadRequest("Username already exists!");
             }
 
-            var userToCreate = new User()
-            {
-                Username = userForRegisterDto.Username
-            };
+            // var userToCreate = new User()
+            // {
+            //     Username = userForRegisterDto.Username
+            // };
+            var userToCreate = _mapper.Map<User>(userForRegisterDto);
 
             var userCreated = await _repo.Register(userToCreate, userForRegisterDto.Password);
 
-            //return CreatedAtRoute();
-            return StatusCode(201);
+            var userTorReturn = _mapper.Map<UserForDetailedDto>(userCreated);
+
+            return CreatedAtRoute("GetUser", new { Controller = "Users", id =  userCreated.Id}, userTorReturn);
+            //return StatusCode(201);
         }
 
         [HttpPost("login")]

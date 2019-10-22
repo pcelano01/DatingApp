@@ -38,7 +38,7 @@ namespace Dating.API
                     if(Configuration.GetValue<string>("CurrentDataProvider").Equals("Sqlite"))
                         services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
                     else
-                        services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("SqlServerConnection")));
+                        services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("SqlServerConnection"), builder => builder.UseRowNumberForPaging()));
 
                     //il secret storage che funziona solo in ambiente di sviluppo
                     services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -57,7 +57,7 @@ namespace Dating.API
                         ||
                         Configuration.GetValue<string>("Env").Equals("Production"))
                 {
-                    services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("SqlServerConnection")));
+                    services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("SqlServerConnection"), builder => builder.UseRowNumberForPaging()));
 
                     // services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     // .AddJwtBearer(options => 
@@ -80,9 +80,9 @@ namespace Dating.API
             {
                 //Production and Staging
                 if(Configuration.GetConnectionString("SqlServerConnection") != null)
-                    services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("SqlServerConnection")));
+                    services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("SqlServerConnection"), builder => builder.UseRowNumberForPaging()));
                 else
-                    services.AddDbContext<DataContext>(x => x.UseSqlServer("Data Source=DESKTOP-QB60D23\\SQLEXPRESS;Initial Catalog=Dating;Integrated Security=True"));
+                    services.AddDbContext<DataContext>(x => x.UseSqlServer("Data Source=DESKTOP-QB60D23\\SQLEXPRESS;Initial Catalog=Dating;Integrated Security=True", builder => builder.UseRowNumberForPaging()));
             }                
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../_services/user.service';
 import { AlertifyService } from '../../_services/alertify.service';
-import { User } from '../../_models/User';
+import { User } from '../../_models/user';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -16,7 +16,7 @@ export class MemberListComponent implements OnInit {
 
   ngOnInit() {
     this.route.data.subscribe(data => {
-      this.users = data['users'];
+      this.users = data['users'].result;
     });
   }
 

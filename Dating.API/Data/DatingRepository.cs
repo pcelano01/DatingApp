@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Dating.API.Helpers;
 using Dating.API.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -32,11 +33,17 @@ namespace Dating.API.Data
             return user;
         }
 
-        public async Task<IEnumerable<User>> GetUsers()
-        {
-            var users = await _context.Users.Include(u => u.Photos).ToListAsync<User>();
+        // public async Task<IEnumerable<User>> GetUsers()
+        // {
+        //     var users = await _context.Users.Include(u => u.Photos).ToListAsync<User>();
 
-            return users;
+        //     return users;
+        // }
+        public async Task<PagedList<User>> GetUsers(UserParams userParams)
+        {
+            var users = _context.Users.Include(u => u.Photos);
+
+            return await PagedList<User>.CreateAsync(users, userParams.PageNumber, userParams.PageSize);
         }
 
         public async Task<Photo> GetPhoto(int id)

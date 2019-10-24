@@ -43,7 +43,12 @@ namespace Dating.API.Data
         public async Task<PagedList<User>> GetUsers(UserParams userParams)
         {
             var users = _context.Users.Include(u => u.Photos)
-            .Where(u => !u.Id.Equals(userParams.UserId) && u.Gender.Equals(userParams.Gender)).OrderByDescending(u => u.LastActive).AsQueryable();
+            .Where(u => !u.Id.Equals(userParams.UserId)).OrderByDescending(u => u.LastActive).AsQueryable();
+
+            if(!String.IsNullOrWhiteSpace(userParams.Gender))
+            {
+                users = users.Where(u => u.Gender.Equals(userParams.Gender));
+            }
 
             if(userParams.Likers)
             {

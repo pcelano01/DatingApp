@@ -27,7 +27,7 @@ export class UserService {
   //   return this.http.get<User[]>(this.baseUrl + 'users/');
   // }
 
-  GetUsers(page?, itemsPerPage?, userParams?): Observable<PaginatedResult<User[]>> {
+  GetUsers(page?, itemsPerPage?, userParams?, LikesParams?): Observable<PaginatedResult<User[]>> {
 
     const paginatedResult: PaginatedResult<User[]> = { result : null, pagination: null };
 
@@ -44,6 +44,16 @@ export class UserService {
       params = params.append('maxAge', userParams.maxAge);
       params = params.append('gender', userParams.gender);
       params = params.append('orderBy', userParams.orderBy);
+      // console.log(params);
+    }
+
+    if (LikesParams === 'Likers') {
+      params = params.append('likers', 'true');
+      // console.log(params);
+    }
+
+    if (LikesParams === 'Likees') {
+      params = params.append('likees', 'true');
       // console.log(params);
     }
 

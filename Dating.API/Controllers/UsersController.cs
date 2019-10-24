@@ -48,7 +48,7 @@ namespace Dating.API.Controllers
 
             userParams.UserId = currentUserId;
 
-            if(String.IsNullOrWhiteSpace(userParams.Gender))
+            if(String.IsNullOrWhiteSpace(userParams.Gender) && !userParams.Likees && !userParams.Likers)
             {
                 userParams.Gender = (currentUser.Gender == "male") ? "female" : "male" ;
             }

@@ -19,6 +19,7 @@ export class MemberDetailResolver implements Resolve<User> {
         return this.userService.GetUser(route.params['id']).pipe(
             catchError(error => {
                 this.alertify.error('Problems while retrieving data!');
+                // tslint:disable-next-line: no-unused-expression
                 this.router.navigate['/members'];
                 return of(null);
             })

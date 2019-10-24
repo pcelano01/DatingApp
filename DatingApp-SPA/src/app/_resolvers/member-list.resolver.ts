@@ -21,6 +21,7 @@ export class MemberListResolver implements Resolve<User[]> {
         return this.userService.GetUsers(this.pageNumber, this.pageSize).pipe(
             catchError(error => {
                 this.alertify.error('Problems while retrieving data!');
+                // tslint:disable-next-line: no-unused-expression
                 this.router.navigate['/home'];
                 return of(null);
             })

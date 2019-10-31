@@ -139,13 +139,13 @@ namespace Dating.API.Data
             switch(messageParams.MessageContainer)
             {
                 case "Inbox":
-                    messages = messages.Where(m => m.RecipientId.Equals(messageParams.UserId));
+                    messages = messages.Where(m => m.RecipientId.Equals(messageParams.UserId) && m.RecipientDeleted == false);
                     break;
                 case "Outbox":
-                    messages = messages.Where(m => m.SenderId.Equals(messageParams.UserId));
+                    messages = messages.Where(m => m.SenderId.Equals(messageParams.UserId) && m.SenderDeleted == false);
                     break;
                 default:
-                    messages = messages.Where(m => m.RecipientId.Equals(messageParams.UserId) && m.IsRead == false);
+                    messages = messages.Where(m => m.RecipientId.Equals(messageParams.UserId) && m.IsRead == false && m.RecipientDeleted == false);
                     break;
             }
 
@@ -158,8 +158,8 @@ namespace Dating.API.Data
         {
             var messages = await _context.Messages.Include(m => m.Sender).ThenInclude(s => s.Photos)
                             .Include(m => m.Recipient).ThenInclude(s => s.Photos)
-                            .Where(m => m.RecipientId.Equals(userId) && m.SenderId.Equals(recipientId) ||
-                            m.SenderId.Equals(userId) && m.RecipientId.Equals(recipientId))
+                            .Where(m => m.RecipientId.Equals(userId) && m.RecipientDeleted == false && m.SenderId.Equals(recipientId) ||
+                            m.SenderId.Equals(userId) && m.SenderDeleted == false && m.RecipientId.Equals(recipientId))
                             .OrderByDescending(m => m.MessageSent).ToListAsync();
 
             return messages;

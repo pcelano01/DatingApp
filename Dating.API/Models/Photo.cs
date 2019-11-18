@@ -16,7 +16,7 @@ namespace Dating.API.Models
 
         public int UserId { get; set; }
 
-        public int User { get; set; }
+        public virtual User User { get; set; }
 
         public string PublicId { get; set; }
     }

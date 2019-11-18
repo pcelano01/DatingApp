@@ -15,7 +15,7 @@ import { AuthService } from '../_services/auth.service';
 export class MessagesComponent implements OnInit {
   messages: Message[];
   pagination: Pagination;
-  messageContainer: 'Unread';
+  messageContainer: any = 'Unread';
 
   // tslint:disable-next-line: max-line-length
   constructor(private userService: UserService, private alertify: AlertifyService, private route: ActivatedRoute, private authService: AuthService) { }
@@ -29,11 +29,12 @@ export class MessagesComponent implements OnInit {
 
   pageChanged(event: any): void {
     this.pagination.currentPage = event.page;
-    this.loadMessages();
+    this.loadMessages(this.messageContainer);
   }
 
-  loadMessages() {
+  loadMessages(container: any) {
     // tslint:disable-next-line: max-line-length
+    this.messageContainer = container;
     this.userService.getMessages(this.authService.decodedToken.nameid, this.pagination.currentPage,
       this.pagination.itemsPerPage, this.messageContainer)
     .subscribe((res: PaginatedResult<Message[]>) => {

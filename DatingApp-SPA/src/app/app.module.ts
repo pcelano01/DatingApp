@@ -34,11 +34,8 @@ import { PhotoEditorComponent } from './members/photo-editor/photo-editor.compon
 import { ListsResolver } from './_resolvers/lists.resolver';
 import { MessagesResolver } from './_resolvers/messages.resolver';
 import { MemberMessagesComponent } from './members/member-messages/member-messages.component';
+import { jwtTokenGetter } from './functions/token';
 
-
-export function tokenGetter() {
-   return localStorage.getItem('token');
-}
 
 export class CustomHammerConfig extends HammerGestureConfig  {
    overrides = {
@@ -78,9 +75,7 @@ export class CustomHammerConfig extends HammerGestureConfig  {
       NgxGalleryModule,
       JwtModule.forRoot({
          config: {
-            tokenGetter: () => {
-               return tokenGetter();
-            },
+            tokenGetter: jwtTokenGetter,
             whitelistedDomains: ['localhost:5000'],
             blacklistedRoutes: ['localhost:5000/api/auth']
          }
